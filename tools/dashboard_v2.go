@@ -376,6 +376,13 @@ func templatingV1FromV2(spec map[string]interface{}) map[string]interface{} {
 			variable["type"] = "constant"
 		case "TextVariable":
 			variable["type"] = "textbox"
+		case "DatasourceVariable":
+			// v2 names the plugin type pluginId; v1 keeps it in query.
+			variable["type"] = "datasource"
+			variable["query"] = vspec["pluginId"]
+			if regex, ok := vspec["regex"]; ok {
+				variable["regex"] = regex
+			}
 		}
 		list = append(list, variable)
 	}
